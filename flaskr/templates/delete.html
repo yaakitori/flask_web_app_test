@@ -30,8 +30,8 @@
                             <tr>
                                 <td class="checkbox-cell">
                                     <!-- idはユニークでなければダメ -->
-                                    <input type="checkbox" id="delete_{{ book.title }}" name="delete_titles" value="{{ book.title }}">
-                                    <label for="delete_{{ book.title }}"></label>
+                                    <input type="checkbox" id="delete_{{ book.id }}" name="delete_ids" value="{{ book.id }}">
+                                    <label for="delete_{{ book.id }}"></label>
                                 </td>
                                 <td>{{ book.arrival_day }}</td>
                                 <td>{{ book.title }}</td>

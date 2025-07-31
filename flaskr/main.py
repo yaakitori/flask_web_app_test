@@ -15,11 +15,13 @@ def index(): # トップ画面にアクセスしたときに実行される
     books = []
     # db_booksを辞書オブジェクトのリストに変換
     for row in db_books:
+        # データを渡すこと自体と表示するかは別
         books.append(
             {
-                "title": row[0],
-                "price": row[1],
-                "arrival_day": row[2],
+                "id": row[0],
+                "title": row[1],
+                "price": row[2],
+                "arrival_day": row[3],
             }
         )
     return render_template(
@@ -49,7 +51,10 @@ def register():
 
     # データベースのbooksのテーブルに登録したい
     con =sqlite3.connect(DATABASE)
-    con.execute("INSERT INTO books VALUES(?, ?, ?)", [title, price, arrival_day]) # VALUESの値をそれぞれ指定
+    # (title, price, arrival_day) の3列にデータを追加する、と明記する
+    con.execute(
+        "INSERT INTO books (title, price, arrival_day) VALUES(?, ?, ?)", [title, price, arrival_day]
+    ) # VALUESの値をそれぞれ指定
     con.commit()  # データベースに対する変更を確定（セーブ）するための命令
     con.close()
     return redirect(url_for('index')) # 処理が終わったらトップ画面を表示
@@ -69,9 +74,10 @@ def delete():
     for row in db_books:
         books.append(
             {
-                "title": row[0],
-                "price": row[1],
-                "arrival_day": row[2],
+                "id": row[0],
+                "title": row[1],
+                "price": row[2],
+                "arrival_day": row[3],
             }
         )
     return render_template(
@@ -84,10 +90,10 @@ def delete():
 def delete_books():
     # どのデータを削除するか、チェックされたチェックボックスのvalueリストを受け取る
     # HTMLのname属性を指定する
-    delete_titles = request.form.getlist("delete_titles")  # 同じname属性を持つフォーム要素（今回はチェックボックス）のvalueをリストとして受け取るためのメソッド
+    delete_ids = request.form.getlist("delete_ids")  # 同じname属性を持つフォーム要素（今回はチェックボックス）のvalueをリストとして受け取るためのメソッド
 
     # 何も選択されていない場合はトップページに戻る
-    if not delete_titles:
+    if not delete_ids:
         return redirect(url_for("index"))
 
     # データを削除
@@ -96,9 +102,9 @@ def delete_books():
     # SQLインジェクションを防ぐため、プレースホルダを使う
     # 処理の骨格だけを最初に渡し、後で値を分離して渡す。後から渡される値を「SQLの命令の一部」としてではなく、常に「ただの文字列や数値データ」として扱うことを保証してくれる
     # DELETE FROM books WHERE id IN (?, ?, ...) の形を動的に生成
-    placeholders = ", ".join(["?" for _ in delete_titles])  # delete_titlesリストの要素数に合わせて、SQL文のプレースホルダ ? を必要な数だけカンマ区切りで生成
-    sql = f"DELETE FROM books WHERE title IN ({placeholders})"
-    con.execute(sql, delete_titles)
+    placeholders = ", ".join(["?" for _ in delete_ids])  # delete_titlesリストの要素数に合わせて、SQL文のプレースホルダ ? を必要な数だけカンマ区切りで生成
+    sql = f"DELETE FROM books WHERE id IN ({placeholders})"
+    con.execute(sql, delete_ids)
 
     con.commit()  # データベースに対する変更を確定（セーブ）するための命令
     con.close()
