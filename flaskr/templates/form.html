@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <title>書店アプリ</title>
+</head>
+<body>
+    <div class="container">
+        <h1>テスト書店</h1>
+        <!-- リクエストの種類をpost(データを送る)に設定 -->
+        <!-- 登録ボタンが押されたときにwebアプリ側にpostでリクエストを投げてテキストボックスに入っているデータを送れる -->
+        <form method="post" action="{{ url_for('register') }}">
+            <table border="1">
+                <tr>
+                    <th>入荷日</th>
+                    <th>タイトル</th>
+                    <th>金額</th>
+                </tr>
+                <tr>
+                    <!-- テキストボックス -->
+                    <td><input type="text" name="arrival_day"></td>
+                    <td><input type="text" name="title"></td>
+                    <td><input type="text" name="price"></td>
+                </tr>
+            </table>
+            <!-- 改行 -->
+            <br>
+            <!-- ボタン -->
+            <input type="submit" value="登録">
+        </form>
+    </div>
+</body>
+</html>

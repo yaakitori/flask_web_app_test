@@ -1,0 +1,99 @@
+/* --- 全体のスタイル --- */
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f7f6; /* 少しグレーがかった背景色 */
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* --- コンテンツを中央に配置するためのコンテナ --- */
+/* HTMLの<body>タグの直後に<div class="container">を追加すると、より綺麗に表示されます */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- 見出しのスタイル --- */
+h1 {
+    color: #2a7a7a;
+    border-bottom: 2px solid #2a7a7a;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h2 {
+    color: #3b9a9a;
+    border-left: 5px solid #3b9a9a;
+    padding-left: 10px;
+}
+
+/* --- テーブルのスタイル --- */
+table {
+    width: 100%;
+    border-collapse: collapse; /* ボーダーを重ねる */
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* テーブルのヘッダーとセル */
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* テーブルヘッダー(入荷日, タイトル, 金額) */
+th {
+    background-color: #e8f3f3;
+    color: #2a7a7a;
+    font-weight: bold;
+}
+
+/* テーブルの行を交互に色付け (シマウマ模様) */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* マウスを乗せると色が変わる */
+}
+
+/* --- 登録ボタンと編集リンクのスタイル (可愛いデザイン) --- */
+input[type="submit"],
+.button-link {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* ピンク系のグラデーション */
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none; /* リンクの下線を消す */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px; /* 角を完全に丸くして、薬のカプセルのような形に */
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out; /* アニメーションを滑らかに */
+    text-align: center;
+}
+
+/* ボタンとリンクにマウスを乗せたときのスタイル */
+input[type="submit"]:hover,
+.button-link:hover {
+    transform: translateY(-3px); /* 少し浮き上がる */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 影を濃くする */
+}
+
+/* ボタンをクリックしたときのスタイル */
+input[type="submit"]:active,
+.button-link:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
