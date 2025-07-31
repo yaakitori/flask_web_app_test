@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <title>書店アプリ</title>
+</head>
+<body>
+    <div class="container">
+        <h1>テスト書店</h1>
+        <h2>削除する行を選択</h2>
+        <!-- 引数で渡されたものを埋め込むことができる（波括弧２つで囲む←テンプレートエンジンの機能） -->
+            <!-- if文も作れる -->
+            {% if books == [] %}
+                <p>削除対象がありません</p>
+                <a href="{{ url_for('index') }}" class="button-link">戻る</a>
+            {% else %}
+                <form method="post" action="{{ url_for('delete_books') }}">
+                    <table border="1">
+                        <!-- テーブルの１行を表すタグ -->
+                        <tr>
+                            <th></th>
+                            <th>入荷日</th>
+                            <th>タイトル</th>
+                            <th>金額</th>
+                        </tr>
+                        <!-- for文を作れる -->
+                        {% for book in books %}
+                            <tr>
+                                <td class="checkbox-cell">
+                                    <!-- idはユニークでなければダメ -->
+                                    <input type="checkbox" id="delete_{{ book.title }}" name="delete_titles" value="{{ book.title }}">
+                                    <label for="delete_{{ book.title }}"></label>
+                                </td>
+                                <td>{{ book.arrival_day }}</td>
+                                <td>{{ book.title }}</td>
+                                <td>{{ book.price }}円</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <input type="submit" value="削除">
+                </form>
+            {% endif %}
+    </div>
+</body>
+</html>

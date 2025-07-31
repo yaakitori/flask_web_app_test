@@ -42,10 +42,65 @@ def register():
     title = request.form['title']
     price = request.form['price']
     arrival_day = request.form['arrival_day']
-    # データベースのbooksのテーブルに登録したい
 
+    # 何も入力されていr内項目がある場合はトップページに戻る
+    if not title or not price or not arrival_day:
+        return redirect(url_for("index"))
+
+    # データベースのbooksのテーブルに登録したい
     con =sqlite3.connect(DATABASE)
     con.execute("INSERT INTO books VALUES(?, ?, ?)", [title, price, arrival_day]) # VALUESの値をそれぞれ指定
     con.commit()  # データベースに対する変更を確定（セーブ）するための命令
     con.close()
     return redirect(url_for('index')) # 処理が終わったらトップ画面を表示
+
+# 削除ページを表示
+@app.route('/delete')
+def delete():
+
+    # データベースと接続
+    con = sqlite3.connect(DATABASE)
+    # fetchall()で取得したすべてのデータをPythonのlistオブジェクトとして取得
+    db_books = con.execute("SELECT * FROM books").fetchall()
+    con.close()
+
+    books = []
+    # db_booksを辞書オブジェクトのリストに変換
+    for row in db_books:
+        books.append(
+            {
+                "title": row[0],
+                "price": row[1],
+                "arrival_day": row[2],
+            }
+        )
+    return render_template(
+        'delete.html',
+        books=books
+    )
+
+# データの削除
+@app.route("/delete_books", methods=["POST"])
+def delete_books():
+    # どのデータを削除するか、チェックされたチェックボックスのvalueリストを受け取る
+    # HTMLのname属性を指定する
+    delete_titles = request.form.getlist("delete_titles")  # 同じname属性を持つフォーム要素（今回はチェックボックス）のvalueをリストとして受け取るためのメソッド
+
+    # 何も選択されていない場合はトップページに戻る
+    if not delete_titles:
+        return redirect(url_for("index"))
+
+    # データを削除
+    con =sqlite3.connect(DATABASE)
+
+    # SQLインジェクションを防ぐため、プレースホルダを使う
+    # 処理の骨格だけを最初に渡し、後で値を分離して渡す。後から渡される値を「SQLの命令の一部」としてではなく、常に「ただの文字列や数値データ」として扱うことを保証してくれる
+    # DELETE FROM books WHERE id IN (?, ?, ...) の形を動的に生成
+    placeholders = ", ".join(["?" for _ in delete_titles])  # delete_titlesリストの要素数に合わせて、SQL文のプレースホルダ ? を必要な数だけカンマ区切りで生成
+    sql = f"DELETE FROM books WHERE title IN ({placeholders})"
+    con.execute(sql, delete_titles)
+
+    con.commit()  # データベースに対する変更を確定（セーブ）するための命令
+    con.close()
+
+    return redirect(url_for("index"))  # 処理が終わったらトップ画面を表示

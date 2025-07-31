@@ -97,3 +97,15 @@ input[type="submit"]:active,
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.checkbox-cell {
+    text-align: center; /* セル内の要素を中央揃え */
+    vertical-align: middle; /* 上下中央揃え */
+}
+
+/* チェックボックス自体のスタイル */
+input[type="checkbox"] {
+    width: 18px; /* 幅を大きくする */
+    height: 18px; /* 高さを大きくする */
+    cursor: pointer; /* マウスカーソルを指の形にする */
+}

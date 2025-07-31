@@ -34,7 +34,8 @@
             {% endif %}
         <!-- リンクを表示させる。url_for関数の引数には、このリンクをクリックしたら実行させたいpythonの関数名を記述 -->
         <!-- 実施に渡されるのはform関数に紐づくURL -->
-            <a href="{{ url_for('form') }}" class="button-link">編集</a>
+            <a href="{{ url_for('form') }}" class="button-link">新規登録</a>
+            <a href="{{ url_for('delete') }}" class="button-link">削除</a>
     </div>
 </body>
 </html>
