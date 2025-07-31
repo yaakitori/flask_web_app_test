@@ -15,7 +15,7 @@
             {% if books == [] %}
                 <p>今月の新刊情報はまだありません</p>
             {% else %}
-                <table border="1">
+                <table>
                     <!-- テーブルの１行を表すタグ -->
                     <tr>
                         <th>入荷日</th>
@@ -35,10 +35,12 @@
                     {% endfor %}
                 </table>
             {% endif %}
-        <!-- リンクを表示させる。url_for関数の引数には、このリンクをクリックしたら実行させたいpythonの関数名を記述 -->
-        <!-- 実施に渡されるのはform関数に紐づくURL -->
-            <a href="{{ url_for('form') }}" class="button-link">新規登録</a>
-            <a href="{{ url_for('delete') }}" class="button-link">削除</a>
+            <!-- リンクを表示させる。url_for関数の引数には、このリンクをクリックしたら実行させたいpythonの関数名を記述 -->
+            <!-- 実施に渡されるのはform関数に紐づくURL -->
+            <div class="button-container">
+                <a href="{{ url_for('form') }}" class="button-link">新規登録</a>
+                <a href="{{ url_for('delete') }}" class="button-link">削除</a>
+            </div>
     </div>
 </body>
 </html>
