@@ -110,3 +110,34 @@ def delete_books():
     con.close()
 
     return redirect(url_for("index"))  # 処理が終わったらトップ画面を表示
+
+# 編集ページへ
+@app.route("/edit/<int:book_id>")  # ルーティングにurl_forの引数をいれることもできる。山括弧をflaskは変数として受け取る
+def edit(book_id): # 引数を取ることもできる
+    con = sqlite3.connect(DATABASE)
+    # 指定されたIDの本を一件だけ取得
+    db_book = con.execute('SELECT * FROM books WHERE id = ?', (book_id,)).fetchone()
+    con.close()
+
+    book = {
+        "id": db_book[0],
+        "title": db_book[1],
+        "price": db_book[2],
+        "arrival_day": db_book[3],
+    }
+    return render_template("edit.html", book=book)
+
+# データの更新
+@app.route("/update/<int:book_id>", methods=["POST"])
+def update(book_id):
+    # requestに送られてきたデータが入ってる
+    title = request.form["title"]
+    price = request.form["price"]
+    arrival_day = request.form["arrival_day"]
+
+    con = sqlite3.connect(DATABASE)
+    # UPDATE文でデータベースの値を更新
+    con.execute("UPDATE books SET title = ?, price = ?, arrival_day = ? WHERE id = ?", [title, price, arrival_day, book_id])
+    con.commit()
+    con.close()
+    return redirect(url_for("index"))

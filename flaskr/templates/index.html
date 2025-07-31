@@ -21,6 +21,7 @@
                         <th>入荷日</th>
                         <th>タイトル</th>
                         <th>金額</th>
+                        <th></th>
                     </tr>
                     <!-- for文を作れる -->
                     {% for book in books %}
@@ -28,6 +29,8 @@
                             <td>{{ book.arrival_day }}</td>
                             <td>{{ book.title }}</td>
                             <td>{{ book.price }}円</td>
+                            <!-- 引数を渡せる -->
+                            <td><a href="{{ url_for('edit', book_id=book.id) }}" class="button-link">編集</a></td>
                         </tr>
                     {% endfor %}
                 </table>
